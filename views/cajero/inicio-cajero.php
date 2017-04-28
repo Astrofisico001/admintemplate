@@ -1,24 +1,8 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <link href="../../materialize/css/materialize.css" rel="stylesheet" type="text/css"/>
-        <script src="../../materialize/js/jquery.js" type="text/javascript"></script>
-        <script src="../../materialize/js/materialize.js" type="text/javascript"></script>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <script src="https://code.highcharts.com/stock/highstock.js"></script>
-        <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
-        <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
-        <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script src="https://code.highcharts.com/modules/exporting.js"></script>
-        <link href="../../util/css/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" type="text/css"/>
+        <!-- Llamamos el php contenedor de scripts y links para la pagina-->
+        <?php include '../../util/html-cajero/head.php'; ?>
         <title>Inicio</title>
     </head>
     <body>
@@ -31,6 +15,7 @@ and open the template in the editor.
                 $('.carousel').carousel();
                 $('#modal1').modal();
                 $('#table-reservas').DataTable();
+
                 $("select").val('10'); //seleccionar valor por defecto del select
                 $('select').addClass("browser-default"); //agregar una clase de materializecss de esta forma ya no se pierde el select de numero de registros.
                 $('select').material_select(); //inicializar el select de materialize
@@ -168,7 +153,7 @@ and open the template in the editor.
                                     <tbody>
                                         <?php foreach ($reservas as $row) { ?>
                                             <tr>
-                                                <td><?php print "hace ".$row["desde_hace"]." minutos"; ?></td>
+                                                <td><?php print "hace " . $row["desde_hace"] . " minutos"; ?></td>
                                                 <td><?php print $row["producto"]; ?></td>
                                                 <td><?php print $row["estado"]; ?></td>
                                                 <td><?php print $row["codigo_mesa"]; ?></td>

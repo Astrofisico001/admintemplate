@@ -9,6 +9,7 @@
         <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
         <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
         <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+        <link rel="icon" type="image/png" href="https://s-media-cache-ak0.pinimg.com/originals/9d/63/bd/9d63bd96356d4ac066ee53aa699250e9.png" />
         <title>Panel ADM V 1.0</title>
     </head>
     <body>

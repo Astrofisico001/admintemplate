@@ -1,8 +1,9 @@
 <html>
     <head>
-        <title>Login pBeer</title>
+        <title>Login Beer</title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+        <link rel="icon" type="image/png" href="https://s-media-cache-ak0.pinimg.com/originals/9d/63/bd/9d63bd96356d4ac066ee53aa699250e9.png" />
         <style>
             body {
                 display: flex;
@@ -36,7 +37,7 @@
             <center>
                 <img class="responsive-img" style="width: 140px;" src="https://s-media-cache-ak0.pinimg.com/originals/9d/63/bd/9d63bd96356d4ac066ee53aa699250e9.png" />
                 <div class="section"></div>
-                <h5 class="indigo-text">Proyecto Beer!</h5>
+                <h5 class="indigo-text">Sistema Beer!</h5>
                 <div class="section"></div>
                 <div class="container">
                     <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
