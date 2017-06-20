@@ -19,35 +19,24 @@
     </head>
     <body>
         <?php
-        require "../../controllers/Cliente.php";
-        require "../../controllers/Consumo.php";
-
-        $clientes = Cliente::obtenerClientes();
-        $clientesConsumo = Cliente::obtenerClientesMasConsumo();
-        $datosTablaConsumo = Consumo::obtenerConsumoMasFecha();
-
-        foreach ($datosTablaConsumo as $datito) {
-            //obtenemos fecha y litros en un array
-            $date = new DateTime($datito["fecha"]);
-            //listamos un array con la fecha y los litros en formato UNIX
-            $data[] = "[" . $date->getTimestamp() . "000," . $datito["litros"] . "]";
-        }
-        ?>  
+        include '../../controllers/consumos/inicio-consumos.php';
+        ?>
         <script>
             $(document).ready(function () {
+                $(".button-collapse").sideNav();
                 $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
 
                     // Create the chart
-                    Highcharts.stockChart('container', {
+                    Highcharts.stockChart('reserva', {
                         rangeSelector: {
                             selected: 1
                         },
                         title: {
-                            text: 'Reservass'
+                            text: 'Consumo Local'
                         },
                         series: [{
                                 name: 'AAPL Stock Price',
-                                data: data,
+                                data: [<?php echo join($data, ',') ?>],
                                 marker: {
                                     enabled: true,
                                     radius: 3
@@ -59,6 +48,26 @@
                             }]
                     });
                 });
+
+
+                Highcharts.stockChart('consumo', {
+                    rangeSelector: {
+                        selected: 1
+                    },
+                    title: {
+                        text: 'Consumo de cerveza'
+                    },
+                    series: [{
+                            name: 'Litros',
+                            // Entregamos la data
+                            data: [<?php echo join($data, ',') ?>],
+                            tooltip: {
+                                valueDecimals: 2
+                            }
+                        }]
+                });
+
+
                 Highcharts.chart('container2', {
                     chart: {
                         plotBackgroundColor: null,
@@ -363,20 +372,23 @@
             });
         </script>
         <!-- Header -->
-        <?php include '../../util/html-admin/header.php'; ?>
+        <?php include './header.php'; ?>
         <!-- End Header -->
         <!-- Content -->
         <div class="row">
             <div class="col m2"></div>
-            <div class="col m10">
-                <div id="container"></div>
+            <div class="col m5 s12">
+                <div id="reserva"></div>
+            </div>
+            <div class="col m5 s12">
+                <div id="consumo"></div>
             </div>
         </div>
         <div class="row">
+            <br><br><br>
             <div class="row">
                 <div class="col m2"></div>
                 <div class="col s12 m6">
-                    <h4>Ofertas mas pedidas</h4>
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-content">
@@ -391,7 +403,7 @@
                 <div class="col s12 m4">
                     <br><br><br>
                     <div id="container2"></div>
-                </div> 
+                </div>
             </div>
         </div>
         <!-- End Content -->

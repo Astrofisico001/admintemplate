@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of Conexion
  *
@@ -15,8 +9,8 @@
 class Conexion extends PDO {
 
     private $tipo_de_base = 'mysql';
-    private $host = '127.0.0.1';
-    private $nombre_de_base = 'db_beer';
+    private $host = 'localhost';
+    private $nombre_de_base = 'beer';
     private $usuario = 'root';
     private $contrasena = '';
 

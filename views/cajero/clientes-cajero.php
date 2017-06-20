@@ -6,13 +6,15 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <?php include '../../util/html-cajero/head.php'; ?>
+        <?php include '../../util/html-generic/head-links-and-scripts.php'; ?>
         <title>Clientes</title>
     </head>
     <body>
         <?php
-        include '../../util/reservas/getReservas.php';
-        include '../../util/clientes/getClientes.php';
+          include '../../controllers/reservas/getReservas.php';
+          require '../../clases/Cliente.php';
+          $cliente = new Cliente();
+          $obtenerClientes = $cliente->obtenerClientes();
         ?>
         <script>
             $(document).ready(function () {
@@ -73,7 +75,7 @@ and open the template in the editor.
             });
         </script>
         <?php
-        //enviar mensajes 
+        //enviar mensajes
         $cont = 1;
         if ($cont = 1) {
             echo "<script>$(document).ready(function () {Materialize.toast('NUEVA RESERVA EN LA MESA 1!', 4000)}); </script>";
@@ -100,17 +102,12 @@ and open the template in the editor.
                     <li><a class="waves-effect" href="inicio-cajero.php">Informaciones</a></li>
                 </ul>
             </div>
-            <div class="card-tabs">
-                <ul class="tabs tabs-fixed-width">
-                    <li class="tab"><a href="#test4">Agregar Clientes<br></a></li>
-                    <li class="tab"><a class="active" href="#test5">Buscar Clientes<br></a></li>
-                </ul>
-            </div>
+
             <div class="card-content grey lighten-4">
                 <div class="row">
                     <ul class="collapsible" data-collapsible="accordion">
                         <li>
-                            <div class="collapsible-header"><span class="badge">2</span><i class="material-icons">turned_in_not</i>Consumo</div>                 
+                            <div class="collapsible-header"><span class="badge">2</span><i class="material-icons">turned_in_not</i>Consumo</div>
                             <div class="collapsible-body col m12 s12">
                                 <div class="col m12 s12">
                                     <div id="container" class="col m6"></div>
@@ -142,74 +139,80 @@ and open the template in the editor.
                         <li>
                             <div class="collapsible-header "><span class="new badge"><?php echo count($reservas) ?></span><i class="material-icons">view_column</i>Reservas</div>
                             <div class="collapsible-body">
-                                <table id="table-reservas">
-                                    <thead>
-                                        <tr>
-                                            <th>Pedido</th>
-                                            <th>Producto</th>
-                                            <th>Cantidad</th>
-                                            <th>Mesa</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($reservas as $row) { ?>
-                                            <tr>
-                                                <td><?php print "hace " . $row["desde_hace"] . " minutos"; ?></td>
-                                                <td><?php print $row["producto"]; ?></td>
-                                                <td><?php print $row["estado"]; ?></td>
-                                                <td><?php print $row["codigo_mesa"]; ?></td>
-                                                <td><a class="btn-flat waves-effect" href="#modal1"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                    <!-- Modal Structure -->
-                                                    <div id="modal1" class="modal">
-                                                        <div class="modal-content">
-                                                            <h4>Modal Header</h4>
-                                                            <p>modal 1</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-                                                        </div>
-                                                    </div>
-                                                    <a class="btn-flat small" href="path/to/settings" aria-label="Delete">
-                                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                                    </a>
-                                                    <a class="btn-flat waves-effect " href="#modal2"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                    <div id="modal2" class="modal">
-                                                        <div class="modal-content">
-                                                            <div class="row">
-                                                                <form class="col s12">
-                                                                    <div class="row">
-                                                                        <div class="input-field col s6">
-                                                                            <input placeholder="Placeholder" id="first_name" type="text" class="validate">
-                                                                            <label for="first_name">First Name</label>
-                                                                        </div>
-                                                                        <div class="input-field col s6">
-                                                                            <input id="last_name" type="text" class="validate">
-                                                                            <label for="last_name">Last Name</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="input-field col s12">
-                                                                            <input id="password" type="password" class="validate">
-                                                                            <label for="password">Password</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="input-field col s12">
-                                                                            <input id="email" type="email" class="validate">
-                                                                            <label for="email">Email</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <a class="waves-effect waves-light btn">Modificar</a>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                </table>
+                              <div class="card">
+                                <div class="card-content">
+                                  <table id="table-reservas">
+                                      <thead>
+                                          <tr>
+                                              <th>Pedido</th>
+                                              <th>Producto</th>
+                                              <th>Cantidad</th>
+                                              <th>Mesa</th>
+                                              <th>Acciones</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <?php foreach ($reservas as $row) { ?>
+                                              <tr>
+                                                  <td><?php print "hace " . $row["desde_hace"] . " minutos"; ?></td>
+                                                  <td><?php print $row["producto"]; ?></td>
+                                                  <td><?php print $row["estado"]; ?></td>
+                                                  <td><?php print $row["codigo_mesa"]; ?></td>
+                                                  <td><a class="btn-flat waves-effect" href="#modal1"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                      <!-- Modal Structure -->
+                                                      <div id="modal1" class="modal">
+                                                          <div class="modal-content">
+                                                              <h4>Modal Header</h4>
+                                                              <p>modal 1</p>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                                                          </div>
+                                                      </div>
+                                                      <a class="btn-flat small" href="path/to/settings" aria-label="Delete">
+                                                          <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                      </a>
+                                                      <a class="btn-flat waves-effect " href="#modal2"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                      <div id="modal2" class="modal">
+                                                          <div class="modal-content">
+                                                              <div class="row">
+                                                                  <form class="col s12">
+                                                                      <div class="row">
+                                                                          <div class="input-field col s6">
+                                                                              <input placeholder="Placeholder" id="first_name" type="text" class="validate">
+                                                                              <label for="first_name">First Name</label>
+                                                                          </div>
+                                                                          <div class="input-field col s6">
+                                                                              <input id="last_name" type="text" class="validate">
+                                                                              <label for="last_name">Last Name</label>
+                                                                          </div>
+                                                                      </div>
+                                                                      <div class="row">
+                                                                          <div class="input-field col s12">
+                                                                              <input id="password" type="password" class="validate">
+                                                                              <label for="password">Password</label>
+                                                                          </div>
+                                                                      </div>
+                                                                      <div class="row">
+                                                                          <div class="input-field col s12">
+                                                                              <input id="email" type="email" class="validate">
+                                                                              <label for="email">Email</label>
+                                                                          </div>
+                                                                      </div>
+                                                                      <a class="waves-effect waves-light btn">Modificar</a>
+                                                                  </form>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </td>
+                                              </tr>
+                                          <?php } ?>
+                                      </tbody>
+                                  </table>
+
+                                </div>
+
+                              </div>
                             </div>
                         </li>
                         <li>
@@ -220,119 +223,66 @@ and open the template in the editor.
                 </div>
                 <div id="test4">
                     <div class="row">
-                        <form class="col s12 m10">
-                            <div class="row">
-                                <div class="input-field col s12 m6">
-                                    <i class="material-icons prefix">account_circle</i>
-                                    <input id="icon_prefix" type="text" class="validate">
-                                    <label for="icon_prefix">First Name</label>
-                                </div>
-                                <div class="input-field col s12 m6">
-                                    <i class="material-icons prefix">phone</i>
-                                    <input id="icon_telephone" type="tel" class="validate">
-                                    <label for="icon_telephone">Telephone</label>
-                                </div>
+                        <div class="card">
+                            <div class="card-content">
+                                <h4>Agregar Cliente</h4>
+                                <form action="../../controllers/clientes/ajaxsubmit.php" method="POST">
+                                    <div class="row">
+                                        <div class="input-field col s12 m6">
+                                            <i class="material-icons prefix">account_circle</i>
+                                            <input id="nombre" type="text" name="nombre" class="validate" required>
+                                            <label for="nombre">Nombre</label>
+                                        </div>
+                                        <div class="input-field col s12 m6">
+                                            <i class="material-icons prefix">phone</i>
+                                            <input id="telefono" name="telefono" type="text" class="validate">
+                                            <label for="telefono">Telefono (opcional)</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6">
+                                            <i class="material-icons prefix">email</i>
+                                            <input id="email" name="email" type="email" class="validate">
+                                            <label for="email">Email (opcional)</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m6">
+                                            <button class="btn waves-effect waves-light" type="submit" name="action">Enviar
+                                                <i class="material-icons right">send</i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form><br><br>
                             </div>
-                            <div class="row">
-                                <div class="input-field col s12 m6">
-                                    <i class="material-icons prefix">email</i>
-                                    <input id="icon_prefix" type="text" class="validate">
-                                    <label for="icon_prefix">Email</label>
-                                </div>
-                                <div class="input-field col s12 m6">
-                                    <select>
-                                        <option>Seleccione la mesa</option>
-                                        <option>Mesa 1</option>
-                                        <option>Mesa 2</option>
-                                        <option>Mesa 3</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12 m6">
-                                    <p class="col m6">
-                                        <input name="group1" type="radio" id="test1" />
-                                        <label for="test1">Hombre</label>
-
-                                        <input name="group1" type="radio" id="test2" />
-                                        <label for="test2">Mujer</label>
-                                    </p>
-                                </div>
-                                <div class="input-field col s12 m6">
-                                    <button class="btn waves-effect waves-light" type="submit" name="action">Enviar
-                                        <i class="material-icons right">send</i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form><br><br><br><br><br>
+                        </div>
                     </div>
                 </div>
                 <div id="test5">
                     <div class="col m12 s12">
-                        <table id="table-clientes">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Correo Electrónico</th>
-                                    <th>Consumo (Ltrs)</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($clientes as $row) {
-                                    $nombre = $row["nombre_completo"];
-                                    $correo = $row["correo_electronico"];
-                                    $total = $row["total"];
-                                    $telefono = $row["telefono"];
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $nombre; ?></td>
-                                        <td><?php echo $correo; ?></td>
-                                        <td><?php echo $total; ?></td>
-                                        <td> <a class="btn-flat waves-effect " href="#modal1"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                            <!-- Modal Structure -->
-                                            <div id="modal1" class="modal">
-                                                <div class="modal-content">
-                                                    <h4>Modal Header</h4>
-                                                    <p>modal 1</p>
-                                                </div>
-                                            </div>
-                                            <a class="btn-flat small" href="path/to/settings" aria-label="Delete">
-                                                <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                            </a>
-
-                                            <a class="btn-flat waves-effect " href="#modal2"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                            <div id="modal2" class="modal">
-                                                <div class="modal-content">
-                                                    <div class="row">
-                                                        <form class="col s12">
-                                                            <div class="row">
-                                                                <div class="input-field col s6">
-                                                                    <input placeholder="Placeholder" id="first_name" type="text" class="validate" value="<?php echo $nombre; ?>">
-                                                                    <label for="first_name">Nombre</label>
-                                                                </div>
-                                                                <div class="input-field col s6">
-                                                                    <input id="last_name" type="text" class="validate" value="<?php echo $telefono; ?>">
-                                                                    <label for="last_name">Telefono</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="input-field col s12">
-                                                                    <input id="email" type="email" class="validate" value="<?php echo $correo; ?>">
-                                                                    <label for="email">Email</label>
-                                                                </div>
-                                                            </div>
-                                                            <a class="waves-effect waves-light btn">Modificar</a>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                        <div class="card">
+                            <div class="card-content">
+                              <h4>Clientes</h4>
+                                <table id="table-clientes">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Correo Electrónico</th>
+                                            <th>Teléfono</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($obtenerClientes as $value) { ?>
+                                        <tr>
+                                          <td><?= $value["nombre_completo"]?></td>
+                                          <td><?= $value["correo_electronico"]?></td>
+                                          <td><?= $value["telefono"]?></td>
+                                        </tr>
+                                    <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
