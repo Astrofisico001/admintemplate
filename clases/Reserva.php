@@ -9,13 +9,17 @@ require_once '../../conexion/Conexion.php';
 
 class Reserva {
 
-    const TABLA = 'reservas';
-
+    const TABLA = 'pedidos';
     public static function obtenerReservas() {
         try {
             $conexion = new Conexion();
             //obtenemos la información que se mostrara en la vista del cajero
-            $sql = "SELECT reservas.reserva_id, reservas.codigo_mesa,reservas.cantidad,reservas.fecha_reserva, TIMESTAMPDIFF(MINUTE, reservas.fecha_reserva, now()) AS 'desde_hace', reservas.estado,ofertas.producto,ofertas.precio,ofertas.imagen_url,ofertas.estado FROM reservas INNER JOIN ofertas ON(reservas.oferta_id=ofertas.oferta_id)";
+            $sql = "SELECT ".self::TABLA.".pedido_id, ".self::TABLA.".codigo_mesa,
+            ".self::TABLA.".cantidad,".self::TABLA.".fecha_reserva,
+             TIMESTAMPDIFF(MINUTE, ".self::TABLA.".fecha_reserva, now()) AS 'desde_hace',
+              ".self::TABLA.".estado,ofertas.producto,ofertas.precio,ofertas.imagen_url,
+              ofertas.estado FROM ".self::TABLA."
+              INNER JOIN ofertas ON(".self::TABLA.".oferta_id=ofertas.oferta_id)";
             $consulta = $conexion->prepare($sql);
             $consulta->execute();
             $registros = $consulta->fetchAll();
@@ -29,7 +33,7 @@ class Reserva {
     public function borrarReserva($reserva) {
         try {
             $conexion = new Conexion();
-            $sql = "DELETE FROM reservas WHERE reserva_id=?";
+            $sql = "DELETE FROM ".self::TABLA." WHERE pedido_id=?";
             $consulta = $conexion->prepare($sql);
             //asignamos la id de reserva
             $consulta->bindParam(1, $reserva);
@@ -37,6 +41,20 @@ class Reserva {
         } catch (Exception $exc) {
             echo $exc->getdTraceAsString();
         }
+    }
+
+    //obtenemos la cantidad de reservas para la pagina de inicio del administrador
+    public static function obtenerCantidadReservas(){
+      try {
+        $conexion = new Conexion();
+        $sql = "SELECT count(*) as cantidad FROM ".self::TABLA." WHERE estado = 1 ";
+        $consulta = $conexion->prepare($sql);
+        $consulta->execute();
+        $registro = $consulta->fetch();
+        return $registro;
+      } catch (Exception $e) {
+
+      }
     }
 
 }

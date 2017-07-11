@@ -12,18 +12,3 @@
         <td><?php echo $json[$i]->telefono; ?></td>
     </tr>
 <?php } */?>
-
-
-<?php
-    //require '../../clases/Cliente.php';
-    $cliente = new Cliente();
-    $obtenerClientes = $cliente->obtenerClientes();
-
-    foreach ($obtenerClientes as $row) { ?>
-      <tr>
-        <td><?php $row["nombre_completo"] ?>></td>
-        <td><?php $row["telefono"] ?></td>
-        <td><?php $row["correo_electronico"]?></td>
-      </tr>
-  <?php  }
- ?>

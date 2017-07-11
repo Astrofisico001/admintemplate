@@ -53,9 +53,9 @@
                                         $telefono = $row["telefono"];
                                         ?>
                                         <tr>
-                                            <td><?php echo $nombre; ?></td>
-                                            <td><?php echo $correo; ?></td>
-                                            <td><?php echo $total; ?></td>
+                                            <td><?= $nombre; ?></td>
+                                            <td><?= $correo; ?></td>
+                                            <td><?= $total; ?></td>
                                             <td>
                                                 <a class="btn-flat waves-effect tooltipped" data-position="left" data-delay="50" data-tooltip="Ver más"  href="#<?php echo $row['nombre_completo']; ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                                 <!-- Modal Structure -->

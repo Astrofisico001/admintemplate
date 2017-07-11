@@ -25,14 +25,14 @@ class Usuario {
 
     public function agregarUsuario($nombre, $correo, $telefono, $password) {
         $conexion = new Conexion();
-        $sql = "INSERT INTO usuarios (nombre_completo,correo,telefono,password) VALUES(?,?,?,?)";
+        $sql = "INSERT INTO usuarios (nombre_completo,correo,telefono,password,estado) VALUES(?,?,?,?,1)";
         //preparamos la consulta
         $consulta = $conexion->prepare($sql);
         //indicamos el valor que queremos asignar para cada campo
         $consulta->bindParam(1, $nombre);
         $consulta->bindParam(2, $correo);
         $consulta->bindParam(3, $telefono);
-        $consulta->bindParam(4, $password);
+        $consulta->bindParam(4, password_hash($password, PASSWORD_DEFAULT));
         //ejecutamos la consulta
         $consulta->execute();
     }
@@ -55,16 +55,16 @@ class Usuario {
         }
     }
 
-    public function actualizarUsuario($nombre, $correo, $telefono) {
+    public function actualizarUsuario($nombre, $correo, $telefono, $usuario) {
         try {
-            preg_replace('/\s+/', ' ', $nombre);
-            preg_replace('/\s+/', ' ', $correo);
-            preg_replace('/\s+/', ' ', $telefono);
             $conexion = new Conexion();
             //$usuarioId = self::buscarUsuario($nombre, $correo);
-            $sql = "UPDATE " . self::TABLA . " SET nombre_completo = '$nombre', correo = "
-                    . "'$correo', telefono = '$telefono' WHERE usuario_id = 1;";
+            $sql = "UPDATE usuarios SET nombre_completo = ?, correo = ?, telefono = ? WHERE usuario_id = ? && estado = 1";
             $consulta = $conexion->prepare($sql);
+            $consulta->bindParam(1,$nombre);
+            $consulta->bindParam(2,$correo);
+            $consulta->bindParam(3,$telefono);
+            $consulta->bindParam(4,$usuario);
             $consulta->execute();
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();
@@ -127,12 +127,16 @@ class Usuario {
     public function validarUsuario($correo, $password) {
         try {
             $conexion = new Conexion();
-            $sql = "SELECT correo,password FROM " . self::TABLA . " WHERE correo = ? AND password = ?";
+            $sql = "SELECT correo,password FROM usuarios WHERE correo = ?";
             $consulta = $conexion->prepare($sql);
             $consulta->bindParam(1, $correo);
-            $consulta->bindParam(2, $password);
             $consulta->execute();
             $registro = $consulta->fetch();
+            if (password_verify($password, $registro['password'])) {
+                return true;
+            } else {
+                return false;
+            }
             return $registro;
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();

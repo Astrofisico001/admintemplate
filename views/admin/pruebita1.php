@@ -15,7 +15,6 @@ and open the template in the editor.
       <div class="row">
           <div class="col m2">
           </div>
-
           <div class="row col m10">
             <div class="col m3">
               <div class="card">

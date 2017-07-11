@@ -13,6 +13,9 @@ $(document).ready(function () {
     $('select').material_select(); //inicializar el select de materialize
     $('ul.tabs').tabs('select_tab', 'tab_id');
     $('.modal').modal();
+    <?php
+
+    ?>
     $('.modal2').modal();
     $('#modal-agregar').modal();
 

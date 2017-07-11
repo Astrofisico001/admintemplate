@@ -6,25 +6,50 @@
     <body>
         <?php
         include '../../controllers/ofertas/getOfertas.php';
+
+        require '../../clases/Mesa.php';
+        $mesa = new Mesa();
+        $obtenerMesas = $mesa->obtenerMesas();
+
         ?>
         <script>
             $(document).ready(function () {
                 $(".button-collapse").sideNav();
                 $('#table-ofertas').DataTable();
                 $("select").val('10'); //seleccionar valor por defecto del select
-                $('select').addClass("browser-default"); //agregar una clase de materializecss de esta forma ya no se pierde el select de numero de registros.
+              //  $('select').addClass("browser-default"); //agregar una clase de materializecss de esta forma ya no se pierde el select de numero de registros.
                 $('select').material_select(); //inicializar el select de materialize
                 $('ul.tabs').tabs('select_tab', 'tab_id');
                 $('.modal').modal();
                 $('.modal2').modal();
+                <?php foreach ($listaOfertas as $row) {?>
+                     $('#<?= $row['producto'] ?>').modal();
+                     $('#<?= $row['oferta_id'] ?>').modal();
+                <?php  }?>
+
+                $("#modal-agregar").modal();
             });
         </script>
         <style media="screen">
             #btn-agregar{
-                position: absolute;
+                position: fixed;
                 right: 30px;
                 bottom: 30px;
             }
+            ::-webkit-scrollbar {
+            width: 12px;
+            }
+
+            ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            border-radius: 10px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+            }
+
         </style>
         <?php include './header.php'; ?>
         <div class="row">
@@ -32,6 +57,59 @@
                 <div class="col m2"></div>
                 <div class="col m10">
                     <a id="btn-agregar" class="btn-floating btn-large waves-effect waves-light red" href="#modal-agregar"><i class="material-icons">add</i></a>
+                    <div id="modal-agregar" class="modal">
+                      <div class="col m12">
+                               <div class="row"><br>
+                                 <img src="../../img/logo.png" width="100" height="100" alt=""><br>
+                                   <form action="../../controllers/ofertas/insert.php" method="post" enctype="multipart/form-data" class="col s12 m12">
+                                       <div class="row">
+                                           <div class="input-field col s12 m6">
+                                               <i class="material-icons prefix">label</i>
+                                               <input id="nombre_oferta" name="nombre_oferta" type="text" class="validate">
+                                               <label for="nombre_oferta">Nombre de la Oferta</label>
+                                           </div>
+                                           <div class="input-field col s12 m6">
+                                               <i class="material-icons prefix">stars</i>
+                                               <input id="precio_oferta" name="precio_oferta" type="tel" class="validate">
+                                               <label for="precio_oferta">Precio</label>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="input-field col s12 m12">
+                                               <select name="tipo_oferta">
+                                                   <option value="" disabled selected>Sleccione el tipo de oferta</option>
+                                               <?php
+                                                   foreach ($tiposOfertas as $row) { ?>
+                                                      <option value="<?= $row["tipo_ofertas_id"] ?>"><?= $row["tipo_oferta"] ?></option>
+                                              <?php }  ?>
+                                               </select>
+                                               <label>Tipo de Oferta</label>
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <label>Materialize Multi File Input</label>
+                                           <div class="file-field input-field">
+                                               <div class="btn">
+                                                   <span>Foto</span>
+                                                   <input type="file" name="foto_oferta" multiple>
+                                               </div>
+                                               <div class="file-path-wrapper">
+                                                   <input class="file-path validate" name="foto_oferta" type="text" placeholder="Upload multiple files">
+                                               </div>
+                                           </div>
+                                       </div>
+                               </div>
+                           </div>
+                           <div class="row">
+
+                               <div class="input-field col s12 m6">
+                                   <button class="btn waves-effect waves-light" type="submit" name="action">Enviar
+                                       <i class="material-icons right">send</i>
+                                   </button>
+                               </div>
+                           </div>
+                        </form>
+                    </div>
                     <br>
                     <div class="card">
                         <div class="card-content">
@@ -45,41 +123,43 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($ofertas as $row) { ?>
+                                    <?php foreach ($listaOfertas as $row) { ?>
                                         <tr>
-                                            <td><?php print $row["producto"]; ?></td>
-                                            <td><?php print $row["precio"]; ?></td>
-                                            <td><?php print $row["codigo_mesa"]; ?></td>
-                                            <td> <a class="btn-flat waves-effect " href="#modal1"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                            <td><?= $row["producto"]; ?></td>
+                                            <td><?= $row["precio"]; ?></td>
+                                            <td><?= $row["codigo_mesa"]; ?></td>
+                                            <td> <a class="btn-flat waves-effect " href="#<?= $row["producto"] ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                                 <!-- Modal Structure -->
-                                                <div id="modal1" class="modal">
+                                                <div id="<?= $row["producto"] ?>" class="modal">
                                                     <div class="modal-content">
-                                                        <h4>Modal Header</h4>
-                                                        <img src="../../img/6.jpg" alt=""/>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                                                        <h4><?= $row["producto"] ?></h4>
+                                                        <div class="col m4">
+                                                          <img width="200" height="200" src="../../img/productos/<?= $row["imagen_url"] ?>" alt=""/><br><br>
+                                                        </div>
+                                                        <div class="col m8">
+                                                          <p>Detalle:</p>
+                                                          <p><?= $row["detalle"] ?></p>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <a class="btn-flat small" href="path/to/settings" aria-label="Delete">
+                                                <a class="btn-flat small" href="../../controllers/ofertas/delete.php?oferta=<?= $row["oferta_id"] ?>" aria-label="Delete"  onClick="javascript: return confirm('¿Confirmar Borrado de Cliente?');">
                                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                                 </a>
-                                                <a class="btn-flat waves-effect " href="#modal2"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                                <div id="modal2" class="modal">
+                                                <a class="btn-flat waves-effect " href="#<?= $row['oferta_id'] ?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                <div id="<?= $row['oferta_id'] ?>" class="modal">
                                                     <div class="modal-content">
                                                         <div class="row">
                                                             <form class="col s12">
                                                                 <div class="row">
                                                                     <div class="input-field col s6">
-                                                                        <input placeholder="Placeholder" id="first_name" type="text" class="validate">
-                                                                        <label for="first_name">First Name</label>
+                                                                        <input placeholder="Placeholder" id="producto" name="producto" type="text" value="<?= $row["producto"] ?>" class="validate">
+                                                                        <label for="producto">Producto</label>
                                                                     </div>
                                                                     <div class="input-field col s6">
-                                                                        <input id="last_name" type="text" class="validate">
-                                                                        <label for="last_name">Last Name</label>
+                                                                        <input id="Precio" type="text" name="precio" value="<?= $row["precio"]; ?>" class="validate">
+                                                                        <label for="Precio">Precio</label>
                                                                     </div>
                                                                 </div>
-
                                                                 <div class="row">
                                                                     <div class="input-field col s12">
                                                                         <input id="password" type="password" class="validate">
@@ -104,71 +184,8 @@
                             </table>
                         </div>
                     </div>
-
-
-                    <!--      <div class="card-conten">
-                             <div class="col m7">
-                                      <div class="row">
-                                          <form class="col s12 m12">
-                                              <div class="row">
-                                                  <div class="input-field col s12 m6">
-                                                      <i class="material-icons prefix">label</i>
-                                                      <input id="icon_prefix" type="text" class="validate">
-                                                      <label for="icon_prefix">Nombre de la Oferta</label>
-                                                  </div>
-                                                  <div class="input-field col s12 m6">
-                                                      <i class="material-icons prefix">stars</i>
-                                                      <input id="icon_telephone" type="tel" class="validate">
-                                                      <label for="icon_telephone">Precio</label>
-                                                  </div>
-                                              </div>
-                                              <div class="row">
-
-                                                  <div class="input-field col s12 m12">
-                                                      <select>
-                                                          <option value="" disabled selected>Choose your option</option>
-                                                          <option value="1">Option 1</option>
-                                                          <option value="2">Option 2</option>
-                                                          <option value="3">Option 3</option>
-                                                      </select>
-                                                      <label>Tipo de Oferta</label>
-                                                  </div>
-                                              </div>
-                                              <div class="row">
-                                                  <label>Materialize Multi File Input</label>
-                                                  <div class="file-field input-field">
-                                                      <div class="btn">
-                                                          <span>Foto</span>
-                                                          <input type="file" multiple>
-                                                      </div>
-                                                      <div class="file-path-wrapper">
-                                                          <input class="file-path validate" type="text" placeholder="Upload multiple files">
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                      </div>
-                                  </div>
-                                  <div class="row">
-                                      <div class="input-field col s12 m12">
-                                          <select>
-                                              <option value="" disabled selected>Choose your option</option>
-                                              <option value="1">Option 1</option>
-                                              <option value="2">Option 2</option>
-                                              <option value="3">Option 3</option>
-                                          </select>
-                                          <label>Mesa Asignada</label>
-                                      </div>
-                                      <div class="input-field col s12 m6">
-                                          <button class="btn waves-effect waves-light" type="submit" name="action">Enviar
-                                              <i class="material-icons right">send</i>
-                                          </button>
-                                      </div>
-                                  </div>
-                                  </form><br><br><br><br><br>
-                              </div>
-                          </div>
-
-                      </div>-->
+                  </div>
+                  </div>
                 </div>
             </div>
         </div>

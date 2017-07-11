@@ -15,7 +15,7 @@ class Mesa {
         try {
             //preparamos la conexion
             $conexion = new Conexion();
-            $sql = "SELECT codigo_mesa,capacidad_litros,img_url FROM " . self::TABLA . "";
+            $sql = "SELECT codigo_mesa,capacidad_litros,nombre_mesa FROM mesas";
             $consulta = $conexion->prepare($sql);
             $consulta->execute();
             $registros = $consulta->fetchAll();

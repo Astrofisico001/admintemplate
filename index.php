@@ -1,64 +1,55 @@
 <html>
     <head>
         <title>Login Beer</title>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-        <link rel="icon" type="image/png" href="./img/logo.png" />
-        <link href="util/css/login/logincss.css" rel="stylesheet" type="text/css"/>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link href="materialize/css/materialize.css" rel="stylesheet" type="text/css"/>
+        <link href="materialize/css/css.css" rel="stylesheet" type="text/css"/>
+        <link rel="icon" type="image/jpg" href="../../img/icon-prosaloma.jpg" />
     </head>
     <body>
-        <?php
-        if (isset($_POST["correo"]) && isset($_POST["password"])) {
-          require './clases/Usuario.php';
-          $usuario = new Usuario();
-            if ($usuario->validarUsuario($_POST["correo"], $_POST["password"])) {
-                header("Location:./views/admin/inicio-panel.php");
-            }else{
-              header("Location: ./index.php");
+      <?php
+      if (isset($_GET["e"])) {
+        echo "<script>alert('usuario o contraseña incorrecto')</script>";
+      }
+      ?>
+        <style>
+            body {
+                background-image: url("img/background.jpg");
+                background-repeat: no-repeat;
             }
-        }
-        ?>
+        </style>
         <div class="section"></div>
-        <main>
-            <center>
-                <img class="responsive-img" style="width: 100px;" src="https://s-media-cache-ak0.pinimg.com/originals/9d/63/bd/9d63bd96356d4ac066ee53aa699250e9.png" />
-                <div class="section"></div>
-                <h5 class="indigo-text">¡Beer!</h5>
-                <div class="section"></div>
-                <div class="container">
-                    <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE; width: 350px;">
-                        <form class="col s12" method="post" action="#">
-                            <div class='row'>
-                                <div class='col s12'>
-                                </div>
+        <div class="section"></div>
+        <div class="section"></div>
+        <center class="col s12">
+            <div class="col s12">
+                <div class="z-depth-1 white col s12" style="//display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE; width: 350px;">
+                    <img width="100" height="80" src="img/logo.png" alt=""/><br><br>
+                    <form method="POST" action="./controllers/usuarios/login.php" class="col s12 m12">
+                        <div class='row col s12'>
+                            <div class='input-field col s12'>
+                                <input class='validate' type='email' name='username' id='username' required/>
+                                <label for='username'>Ingresa tu correo</label>
                             </div>
-                            <div class='row'>
-                                <div class='input-field col s12 m12'>
-                                    <input class='validate' type='email' name='correo' id='correo' />
-                                    <label for='correo'>Ingresar email</label>
-                                </div>
+                        </div>
+                        <div class='row col s12'>
+                            <div class='input-field col s12'>
+                                <input class='validate' type='password' name='password' id='password' required/>
+                                <label for='password'>Ingresa tu password</label>
                             </div>
-                            <div class='row'>
-                                <div class='input-field col s12 m12'>
-                                    <input class='validate' type='password' name='password' id='password' />
-                                    <label for='password'>Ingresa tu password</label>
-                                </div>
+                        </div>
+                        <center>
+                            <div class='row col s12'>
+                                <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo darken-4'>Login</button>
                             </div>
-                            <br/>
-                            <center>
-                                <div class='row'>
-                                    <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect '>Login</button>
-                                </div>
-                            </center>
-                            <label>
-                                <a class='pink-text' href='loginrecover.php'><b>¿Olvido su contraseña?</b></a>
-                            </label>
-                        </form>
-                    </div>
+                        </center>
+                    </form>
+                    <a class='pink-text' href='loginrecover.php'><b>¿Problemas para ingresar?</b></a><br><br>
                 </div>
-            </center>
-        </main>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
-    </body>
+            </div>
+        </center>
+          <script src="materialize/js/jquery.js" type="text/javascript"></script>
+          <script src="materialize/js/materialize.js" type="text/javascript"></script>
+</body>
 </html>

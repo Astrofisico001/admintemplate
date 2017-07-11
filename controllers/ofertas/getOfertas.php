@@ -1,4 +1,6 @@
 <?php
 
 require '../../clases/Oferta.php';
-$ofertas = Oferta::obetenerOfertas();
+$ofertas = new Oferta();
+$listaOfertas = $ofertas->obetenerOfertas();
+$tiposOfertas = $ofertas->obtenerTipoOferta();

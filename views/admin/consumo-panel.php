@@ -18,6 +18,29 @@
         <title>Panel ADM V 1.0</title>
     </head>
     <body>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['Task', 'Hours per Day'],
+        ['Work',     11],
+        ['Eat',      2],
+        ['Commute',  2],
+        ['Watch TV', 2],
+        ['Sleep',    7]
+      ]);
+
+      var options = {
+        title: 'My Daily Activities',
+        is3D: true,
+      };
+
+      var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+      chart.draw(data, options);
+    }
+  </script>
         <?php
         include '../../controllers/consumos/inicio-consumos.php';
         ?>
@@ -68,58 +91,7 @@
                 });
 
 
-                Highcharts.chart('container2', {
-                    chart: {
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false,
-                        type: 'pie'
-                    },
-                    title: {
-                        text: 'Mesas Consumo'
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                                style: {
-                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                                }
-                            }
-                        }
-                    },
-                    series: [{
-                            name: 'Brands',
-                            colorByPoint: true,
-                            data: [{
-                                    name: 'Microsoft Internet Explorer',
-                                    y: 56.33
-                                }, {
-                                    name: 'Chrome',
-                                    y: 24.03,
-                                    sliced: true,
-                                    selected: true
-                                }, {
-                                    name: 'Firefox',
-                                    y: 5.38
-                                }, {
-                                    name: 'Safari',
-                                    y: 9.77
-                                }, {
-                                    name: 'Opera',
-                                    y: 0.91
-                                }, {
-                                    name: 'Proprietary or Undetectable',
-                                    y: 0.2
-                                }]
-                        }]
-                });
+
                 Highcharts.chart('ofertas', {
                     chart: {
                         type: 'column'
@@ -388,7 +360,7 @@
             <br><br><br>
             <div class="row">
                 <div class="col m2"></div>
-                <div class="col s12 m6">
+                <div class="col s12 m5">
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-content">
@@ -400,9 +372,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col s12 m4">
+
+                <div class="col s12 m5">
                     <br><br><br>
-                    <div id="container2"></div>
+                     <div id="piechart_3d"></div>
                 </div>
             </div>
         </div>

@@ -51,6 +51,30 @@
                                 <div id="container"></div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="card-content center">
+                              <div class="col m1">
+                              </div>
+                              <div class="card col m3 s12 light-blue darken-2">
+                                <div class="card-content center">
+                                  <h1 style="color:#fff"><?= $cantidadClientes["cantidad"] ?></h1><br>
+                                  <h5 style="color:#fff">Clientes</h5>
+                                </div>
+                              </div>
+                              <div class="card col m3 s12 indigo darken-1">
+                                <div class="card-content center">
+                                  <h1 style="color:#fff"><?= $cantidadReservas["cantidad"] ?></h1><br>
+                                  <h5 style="color:#fff">Pedidos</h5>
+                                </div>
+                              </div>
+                              <div class="card col m3 s12 teal darken-3">
+                                <div class="card-content center">
+                                  <h1 style="color:#fff"><?= $cantidadOfertas["cantidad"] ?></h1><br>
+                                  <h5 style="color:#fff">Ofertas</h5>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
                         <div class="card">
                             <div class="card-content">
                               <h4>Clientes</h4>
@@ -66,18 +90,22 @@
                                         <?php foreach ($clientesConsumo as $row) {
                                             ?>
                                             <tr>
-                                                <td><?php echo $row["nombre_completo"]; ?></td>
-                                                <td><?php echo $row["correo_electronico"]; ?></td>
-                                                <td><?php echo $row["total"]; ?></td>
+                                                <td><?= $row["nombre_completo"]; ?></td>
+                                                <td><?= $row["correo_electronico"]; ?></td>
+                                                <td><?= $row["total"]; ?></td>
                                             </tr>
                                         <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+                        <style media="screen">
+                          .row .card{
+                            margin:10px;
+                          }
                     </div>
+
                 </div>
-                <!-- End Content -->
             </div>
     </body>
 </html>

@@ -21,7 +21,7 @@ class Cliente {
         return $registros;
     }
 
-    public function insertarClientePremium($nombre, $telefono, $correo_electronico, $fecha_nacimiento, $fecha_ingreso, $img_url, $genero, $premium) {
+  /*  public function insertarClientePremium($nombre, $telefono, $correo_electronico, $fecha_nacimiento, $fecha_ingreso, $img_url, $genero, $premium) {
         try {
             $conexion = new Conexion();
             $sql = "INSERT INTO " . self::TABLA . "(nombre_completo,telefono,correo_electronico,fecha_nacimiento,fecha_ingreso,img_url,genero,premium) VALUES (?,?,?,?,?,?,?,?)";
@@ -39,13 +39,13 @@ class Cliente {
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();
         }
-    }
+    }*/
 
-    //metodo de prue a
+
     public function agregarCliente($nombre, $telefono, $email) {
         try {
             $conexion = new Conexion();
-            $sql = "INSERT INTO " . self::TABLA . " (nombre_completo,telefono,correo_electronico) VALUES(?,?,?)";
+            $sql = "INSERT INTO " . self::TABLA . " (nombre_completo,telefono,correo_electronico,estado) VALUES(?,?,?,1)";
             $consulta = $conexion->prepare($sql);
             $consulta->bindParam(1, $nombre);
             $consulta->bindParam(2, $telefono);
@@ -87,5 +87,32 @@ class Cliente {
             echo $exc->getTraceAsString();
         }
     }
+    //obtenemos la cantidad de clientes para la pagina de inicio del administrador
+    public static function obtenerCantidadClientes(){
+      try {
+        $conexion = new Conexion();
+        $sql = "SELECT count(*) as cantidad FROM ".self::TABLA." WHERE estado = 1";
+        $consulta = $conexion->prepare($sql);
+        $consulta->execute();
+        $registros = $consulta->fetch();
+        return $registros;
+      } catch (Exception $e) {
+      }
+    }
+
+    public static function obtenerUltimoCliente(){
+      try {
+        $conexion = new Conexion();
+        $sql = "SELECT cliente_id FROM clientes ORDER BY cliente_id desc";
+        $consulta = $conexion->prepare($sql);
+        $consulta->execute();
+        $registro = $consulta->fetch();
+        return $registro;
+      } catch (Exception $e) {
+
+      }
+
+    }
+
 
 }
